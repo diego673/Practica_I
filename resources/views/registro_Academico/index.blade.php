@@ -61,4 +61,5 @@
 
 
 </div>
+{{ $registros_academicos->links() }}
 @endsection

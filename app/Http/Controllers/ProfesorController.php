@@ -40,24 +40,8 @@ class ProfesorController extends Controller
     public function store(Request $request)
     {
         //
-        /*$validated = $request->validate([
-            'nombre' => 'requiered|string|max:191',
-            'A_paterno' => 'requiered|string|max;191',
-            'A_materno' => 'requiered|string|max:191',
-            'rut' => 'requiered|string|max:191',
-            'asignatura' => 'requiered|string|max:191',
-            'correo' => 'requiered|email'
-
-        ]);
-        */
-        //$datosProfesor=request()-> all();
-
-        $datosProfesor=request()-> except('_token');
-        
-        Profesor::insert($datosProfesor);
-
-        //return response()->json($datosProfesor);
-        return redirect('profesor')-> with('Mensaje','Profesor agregado con exito');
+        $profesor=new Profesor;
+        $profesor->create($request->all());
     }
 
     /**
@@ -69,6 +53,7 @@ class ProfesorController extends Controller
     public function show(Profesor $profesor)
     {
         //
+        return $profesor;
     }
 
     /**
