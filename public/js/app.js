@@ -1932,6 +1932,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      profesor: {
+        nombre: 'n',
+        A_paterno: 'ap',
+        A_materno: 'am',
+        rut: 'r',
+        asignatura: 'a',
+        correo: 'c'
+      },
+      rut: null,
+      modificar: true,
       profesores: []
     };
   },
@@ -38370,9 +38380,9 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(profesor.rut))]),
             _vm._v(" "),
-            _c("td", [_vm._v("@" + _vm._s(profesor.asignatura))]),
+            _c("td", [_vm._v(_vm._s(profesor.asignatura))]),
             _vm._v(" "),
-            _c("td", [_vm._v("@" + _vm._s(profesor.correo))])
+            _c("td", [_vm._v(_vm._s(profesor.correo))])
           ])
         }),
         0

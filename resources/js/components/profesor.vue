@@ -18,8 +18,8 @@
       <th scope="row">{{profesor.rut}}</th>
       <td>{{profesor.nombre}} {{profesor.A_paterno}} {{profesor.A_materno}}</td>
       <td>{{profesor.rut}}</td>
-      <td>@{{profesor.asignatura}}</td>
-      <td>@{{profesor.correo}}</td>
+      <td>{{profesor.asignatura}}</td>
+      <td>{{profesor.correo}}</td>
     </tr>
 
   </tbody>
@@ -32,7 +32,17 @@
 export default {
     data(){
         return{
-            profesores:[],
+          profesor:{
+            nombre:'n',
+            A_paterno: 'ap',
+            A_materno:'am',
+            rut:'r',
+            asignatura:'a',
+            correo:'c'
+          },
+          rut:null,
+          modificar:true,
+          profesores:[],
         }
 
     },
