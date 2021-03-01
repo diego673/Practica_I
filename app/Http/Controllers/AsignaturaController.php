@@ -14,9 +14,9 @@ class AsignaturaController extends Controller
      */
     public function index()
     {
-        //
-        $datos['asignaturas']= Asignatura::paginate(15);
-        return view('asignatura.index',$datos);
+        return Asignatura::get();
+        //$datos['asignaturas']= Asignatura::paginate(15);
+        //return view('asignatura.index',$datos);
     }
 
     /**
@@ -38,14 +38,18 @@ class AsignaturaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $asignatura=new Asignatura;
+        $asignatura->create($request->all());
+
         //$datosAsignatura= request()-> all();
 
-        $datosAsignatura= request()-> except('_token');
+        /*$datosAsignatura= request()-> except('_token');
 
         Asignatura:: insert($datosAsignatura);
 
         return response()-> json($datosAsignatura);
+        */
     }
 
     /**
@@ -57,6 +61,7 @@ class AsignaturaController extends Controller
     public function show(Asignatura $asignatura)
     {
         //
+        return $asignatura;
     }
 
     /**
@@ -80,6 +85,7 @@ class AsignaturaController extends Controller
     public function update(Request $request, Asignatura $asignatura)
     {
         //
+        $asignatura->update($request->all());
     }
 
     /**
@@ -91,5 +97,6 @@ class AsignaturaController extends Controller
     public function destroy(Asignatura $asignatura)
     {
         //
+        $asignatura->delete();
     }
 }

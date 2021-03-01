@@ -14,10 +14,10 @@ class ProfesorController extends Controller
      */
     public function index()
     {
-        //
+        return Profesor::get();
         
-        $datos['profesores'] = Profesor::paginate(15);
-        return view('profesor.index', $datos);
+        //$datos['profesores'] = Profesor::paginate(15);
+        //return view('profesor.index', $datos);
     }
 
     /**
@@ -76,15 +76,17 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $rut)
+    public function update(Request $request, Profesor $profesor)
     {
+
+        $profesor->update($request->all());
         //
-        $datosProfesor=request()-> except(['_token','_method']);
+        /*$datosProfesor=request()-> except(['_token','_method']);
         Profesor::where('rut','=',$rut)->update($datosProfesor);
 
         $profesor = Profesor:: findOrFail($rut);
         return redirect('profesor')-> with('Mensaje','Profesor editado con exito');
-
+        */
     }
 
     /**
@@ -93,12 +95,10 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $rut)
+    public function destroy(Profesor  $profesor)
     {
-        //
-        Profesor::destroy($rut);
-
-        return redirect('profesor')-> with('Mensaje','Profesor eliminado con exito');
+        
+        $profesor->delete();
 
     }
 }

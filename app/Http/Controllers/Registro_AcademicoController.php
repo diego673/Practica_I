@@ -14,9 +14,9 @@ class Registro_AcademicoController extends Controller
      */
     public function index()
     {
-        //
-        $datos['registros_academicos'] = Registro_Academico::paginate(15);
-        return view('registro_Academico.index',$datos);
+        return Registro_Academico::get();
+        //$datos['registros_academicos'] = Registro_Academico::paginate(15);
+        //return view('registro_Academico.index',$datos);
     }
 
     /**
@@ -38,14 +38,15 @@ class Registro_AcademicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        //$datosRegistroAcademico= request() -> all();
+        $registro_Academico=new Registro_Academico;
+        $registro_Academico->create($request->all());
 
-        $datosRegistroAcademico= request()-> except('_token');
+        /*$datosRegistroAcademico= request()-> except('_token');
         
         Registro_Academico::insert($datosRegistroAcademico);
         
         return response()-> json($datosRegistroAcademico);
+        */
     }
 
     /**
@@ -57,6 +58,7 @@ class Registro_AcademicoController extends Controller
     public function show(Registro_Academico $registro_Academico)
     {
         //
+        return $registro_Academico;
     }
 
     /**
@@ -82,6 +84,7 @@ class Registro_AcademicoController extends Controller
     public function update(Request $request, Registro_Academico $registro_Academico)
     {
         //
+        $registro_Academico->update($request->all());
     }
 
     /**
@@ -90,11 +93,11 @@ class Registro_AcademicoController extends Controller
      * @param  \App\Models\Registro_Academico  $registro_Academico
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_estudiante)
+    public function destroy(Registro_Academico $registro_Academico)
     {
-        //
-        Registro_Academico::destroy($id_estudiante);
-        return redirect('Registro_Academico');
+        $registro_Academico->delete();
+        //Registro_Academico::destroy($id_estudiante);
+        //return redirect('Registro_Academico');
 
     }
 }

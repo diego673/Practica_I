@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1 class="text-center">Profesores</h1>
+        <h1 class="text-center">Estudiantes</h1>
         <hr>
 
         <!-- Button to Open the Modal -->
 <button @click="modificar=false; abrirModal();" type="button" class="btn btn-primary my-4" >
-  Agregar profesor
+  Agregar estudiante
 </button>
 
 <!-- The Modal -->
@@ -22,28 +22,28 @@
       <!-- Modal body -->
       <div class="modal-body">
           <div class="my-4">
-            <label for="nombre">Nombre del profesor</label>
-            <input v-model="profesor.nombre" type="text" class="form-control" id=nombre placeholder="...">
+            <label for="id">Id del estudiante</label>
+            <input v-model="estudiante.id" type="integer" class="form-control" id=id placeholder="...">
+          </div >
+          <div class="my-4">
+            <label for="nombre">Nombre del estudiante</label>
+            <input v-model="estudiante.nombre" type="text" class="form-control" id=nombre placeholder="...">
           </div >
           <div class="my-4">
             <label for="A_paterno">Apellido paterno</label>
-            <input v-model="profesor.A_paterno" type="text" class="form-control" id=A_paterno placeholder="...">
+            <input v-model="estudiante.A_paterno" type="text" class="form-control" id=A_paterno placeholder="...">
           </div>
           <div class="my-4">
             <label for="A_materno">Apellido materno</label>
-            <input v-model="profesor.A_materno" type="text" class="form-control" id=A_materno placeholder="...">
+            <input v-model="estudiante.A_materno" type="text" class="form-control" id=A_materno placeholder="...">
           </div>
           <div class="my-4">
-            <label for="rut">Rut del profesor</label>
-            <input v-model="profesor.rut" type="text" class="form-control" id=rut placeholder="...">
+            <label for="rut">Rut del estudiante</label>
+            <input v-model="estudiante.rut" type="text" class="form-control" id=rut placeholder="...">
           </div>
           <div class="my-4">
-            <label for="asignatura">asignatura del profesor</label>
-            <input v-model="profesor.asignatura" type="text" class="form-control" id=asignatura placeholder="...">
-          </div>
-          <div class="my-4">
-            <label for="correo">Correo del profesor</label>
-            <input v-model="profesor.correo" type="text" class="form-control" id=correo placeholder="...">
+            <label for="correo">Correo del estudiante</label>
+            <input v-model="estudiante.correo" type="text" class="form-control" id=correo placeholder="...">
           </div>
       </div>
 
@@ -60,24 +60,24 @@
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
+      <th scope="col">Id estudiante</th>
       <th scope="col">Nombre</th>
       <th scope="col">Rut</th>
-      <th scope="col">Asignatura</th>
       <th scope="col">Correo</th>
       <th scope="col" colspan="2" class="text-center">Accion</th>
     </tr>
   </thead>
   <tbody>
-    <tr v-for="profesor in profesores" :key="profesor.rut">
-      <td>{{profesor.nombre}} {{profesor.A_paterno}} {{profesor.A_materno}}</td>
-      <td>{{profesor.rut}}</td>
-      <td>{{profesor.asignatura}}</td>
-      <td>{{profesor.correo}}</td>
+    <tr v-for="estudiante in estudiantes" :key="estudiante.id">
+      <td>{{estudiante.id}}</td>
+      <td>{{estudiante.nombre}} {{estudiante.A_paterno}} {{estudiante.A_materno}}</td>
+      <td>{{estudiante.rut}}</td>
+      <td>{{estudiante.correo}}</td>
       <td>
-          <button @click="modificar=true; abrirModal(profesor);" class="btn btn-warning">Editar</button>
+          <button @click="modificar=true; abrirModal(estudiante);" class="btn btn-warning">Editar</button>
       </td>
       <td>
-          <button @click="borrar(profesor.rut)" class="btn btn-danger">Borrar</button>
+          <button @click="borrar(estudiante.id)" class="btn btn-danger">Borrar</button>
       </td>
     </tr>
 
@@ -91,17 +91,17 @@
 export default {
     data(){
         return{
-          profesor:{
+          estudiante:{
+            id:null,
             nombre:'n',
             A_paterno: 'ap',
             A_materno:'am',
             rut:'r',
-            asignatura:'a',
             correo:'c'
           },
-          rut:'',
+          id:0,
           modificar:true,
-          profesores:[],
+          estudiantes:[],
           tituloModal:'',
           modal:0,
         }
@@ -109,22 +109,22 @@ export default {
     },
     methods:{
         async listar(){
-            const res=await axios.get('/profesor')
-            this.profesores=res.data;
+            const res=await axios.get('/estudiante')
+            this.estudiantes=res.data;
         },
 
-        async borrar(rut){
-            const res=await axios.delete('/profesor/'+this.rut)
+        async borrar(id){
+            const res=await axios.delete('/estudiante/'+this.id)
             this.listar();
         },
 
         async guardar(){
           if(this.modificar){
-            const res=await axios.put('/profesor/' +this.rut, this.profesor)
+            const res=await axios.put('/estudiante/' +this.id, this.estudiante)
 
           }else{
 
-            const res=await axios.post('/profesor', this.profesor)
+            const res=await axios.post('/estudiante', this.estudiante)
           }
           this.cerrarModal();
           this.listar();
@@ -133,22 +133,22 @@ export default {
         abrirModal(data={}){
           this.modal=1;
           if(this.modificar){
-            this.tituloModal="Modificar profesor";
-            this.profesor.nombre=data.nombre;
-            this.profesor.A_paterno=data.A_paterno;
-            this.profesor.A_materno=data.A_materno;
-            this.profesor.rut=data.rut;
-            this.profesor.asignatura=data.asignatura;
-            this.profesor.correo=data.correo;
+            this.tituloModal="Modificar estudiante";
+            this.estudiante.id=data.id;
+            this.estudiante.nombre=data.nombre;
+            this.estudiante.A_paterno=data.A_paterno;
+            this.estudiante.A_materno=data.A_materno;
+            this.estudiante.rut=data.rut;
+            this.estudiante.correo=data.correo;
 
           }else{
-            this.tituloModal="Crear profesor";
-            this.profesor.nombre='';
-            this.profesor.A_paterno='';
-            this.profesor.A_materno='';
-            this.profesor.rut='';
-            this.profesor.asignatura='';
-            this.profesor.correo='';
+            this.tituloModal="Crear estudiante";
+            this.estudiante.id=0;
+            this.estudiante.nombre='';
+            this.estudiante.A_paterno='';
+            this.estudiante.A_materno='';
+            this.estudiante.rut='';
+            this.estudiante.correo='';
 
           }
 

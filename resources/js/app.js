@@ -20,8 +20,10 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('profesor', require('./components/profesor.vue').default);
-
+Vue.component('profesor-component', require('./components/profesor.vue').default);
+Vue.component('estudiante-component', require('./components/estudiante.vue').default);
+Vue.component('asignatura-component', require('./components/asignatura.vue').default);
+Vue.component('registroAcademico-component', require('./components/registroAcademico.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -30,4 +32,7 @@ Vue.component('profesor', require('./components/profesor.vue').default);
 
 const app = new Vue({
     el: '#app',
+    data:{
+        menu:0
+    }
 });

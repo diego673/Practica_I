@@ -14,9 +14,9 @@ class EstudianteController extends Controller
      */
     public function index()
     {
-        //
-        $datos['estudiantes'] = Estudiante::paginate(15);
-        return view('estudiante.index',$datos);
+        return Estudiante::get();
+        //$datos['estudiantes'] = Estudiante::paginate(15);
+        //return view('estudiante.index',$datos);
     }
 
     /**
@@ -38,14 +38,16 @@ class EstudianteController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        //$datosEstudiante=request()-> all();
 
-        $datosEstudiante=request() -> except('_token');
+        $estudiante = new Estudiante;
+        $estudiante->create($request->all());
+
+        /*$datosEstudiante=request() -> except('_token');
 
         Estudiante:: insert($datosEstudiante);
         
         return redirect('estudiante')-> with('Mensaje', 'Estudiante agregado con exito');
+        */
     }
 
     /**
@@ -57,6 +59,7 @@ class EstudianteController extends Controller
     public function show(Estudiante $estudiante)
     {
         //
+        return $estudiante;
     }
 
     /**
@@ -79,15 +82,16 @@ class EstudianteController extends Controller
      * @param  \App\Models\Estudiante  $estudiante
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Estudiante $estudiante)
     {
-        //
-        $datosEstudiante=request() -> except(['_token','_method']);
+        
+        $estudiante->update($request->all());
+        /*$datosEstudiante=request() -> except(['_token','_method']);
         Estudiante::where('id','=',$id)-> update( $datosEstudiante);
 
         $estudiantes= Estudiante::findOrFail($id);
         return redirect('estudiante')-> with('Mensaje', 'Estudiante editado con exito');
-
+        */
     }
 
     /**
@@ -96,11 +100,12 @@ class EstudianteController extends Controller
      * @param  \App\Models\Estudiante  $estudiante
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Estudiante $estudiante)
     {
-        //
-        Estudiante::destroy($id);
-        return redirect('estudiante')-> with('Mensaje', 'Estudiante eliminado con exito');
+        $estudiante->delete();
+
+        //Estudiante::destroy($id);
+        //return redirect('estudiante')-> with('Mensaje', 'Estudiante eliminado con exito');
 
 
     }
