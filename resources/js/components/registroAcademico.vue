@@ -113,7 +113,7 @@ export default {
             promedio:'p',
             observaciones:'o'
           },
-          id:null,
+          id:0,
           modificar:true,
           registroAcademicos:[],
           tituloModal:'',
@@ -124,21 +124,21 @@ export default {
     methods:{
         async listar(){
             const res=await axios.get('/registro_Academico')
-            this.registroAcademicoes=res.data;
+            this.registroAcademico=res.data;
         },
 
-        async borrar(rut){
-            const res=await axios.delete('/registro_Academico/'+this.rut)
+        async borrar(id_estudiante){
+            const res=await axios.delete('/registro_Academico/'+this.id_estudiante)
             this.listar();
         },
 
         async guardar(){
           if(this.modificar){
-            const res=await axios.put('/registro_Academico/' +this.rut, this.registroAcademico)
+            const res=await axios.put('/registro_Academico/' +this.id_estudiante, this.registroAcademico)
 
           }else{
 
-            const res=await axios.post('/registro_Academico', this.registroAcademico)
+            const res=await axios.post('/registro_Academico/', this.registroAcademico)
           }
           this.cerrarModal();
           this.listar();
@@ -159,13 +159,13 @@ export default {
 
           }else{
             this.tituloModal="Crear registro academico";
-            this.registroAcademico.id_estudiante=null;
+            this.registroAcademico.id_estudiante=0;
             this.registroAcademico.rut='';
             this.registroAcademico.nombre='';
             this.registroAcademico.A_paterno='';
             this.registroAcademico.A_materno='';
             this.registroAcademico.fecha_inscripcion=null;
-            this.registroAcademico.promedio=null;
+            this.registroAcademico.promedio=0;
             this.registroAcademico.observaciones='';
 
           }

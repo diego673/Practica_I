@@ -92,7 +92,7 @@ export default {
     data(){
         return{
           estudiante:{
-            id:null,
+            id:0,
             nombre:'n',
             A_paterno: 'ap',
             A_materno:'am',
@@ -104,6 +104,7 @@ export default {
           estudiantes:[],
           tituloModal:'',
           modal:0,
+          
         }
 
     },
@@ -114,7 +115,7 @@ export default {
         },
 
         async borrar(id){
-            const res=await axios.delete('/estudiante/'+this.id)
+            const res=await axios.delete('/estudiante/'+ this.id)
             this.listar();
         },
 
@@ -124,7 +125,7 @@ export default {
 
           }else{
 
-            const res=await axios.post('/estudiante', this.estudiante)
+            const res=await axios.post('/estudiante/', this.estudiante)
           }
           this.cerrarModal();
           this.listar();

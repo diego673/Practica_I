@@ -114,7 +114,7 @@ export default {
         },
 
         async borrar(rut){
-            const res=await axios.delete('/profesor/'+this.rut)
+            const res=await axios.put('/profesor/eliminar'+this.rut)
             this.listar();
         },
 
@@ -124,7 +124,7 @@ export default {
 
           }else{
 
-            const res=await axios.post('/profesor', this.profesor)
+            const res=await axios.post('/profesor/', this.profesor)
           }
           this.cerrarModal();
           this.listar();

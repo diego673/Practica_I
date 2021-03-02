@@ -2248,7 +2248,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       estudiante: {
-        id: null,
+        id: 0,
         nombre: 'n',
         A_paterno: 'ap',
         A_materno: 'am',
@@ -2337,7 +2337,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _context3.next = 8;
-                return axios.post('/estudiante', _this3.estudiante);
+                return axios.post('/estudiante/', _this3.estudiante);
 
               case 8:
                 _res = _context3.sent;
@@ -2549,7 +2549,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios["delete"]('/profesor/' + _this2.rut);
+                return axios.put('/profesor/eliminar' + _this2.rut);
 
               case 2:
                 res = _context2.sent;
@@ -2589,7 +2589,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _context3.next = 8;
-                return axios.post('/profesor', _this3.profesor);
+                return axios.post('/profesor/', _this3.profesor);
 
               case 8:
                 _res = _context3.sent;
@@ -2773,7 +2773,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         promedio: 'p',
         observaciones: 'o'
       },
-      id: null,
+      id: 0,
       modificar: true,
       registroAcademicos: [],
       tituloModal: '',
@@ -2795,7 +2795,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 res = _context.sent;
-                _this.registroAcademicoes = res.data;
+                _this.registroAcademico = res.data;
 
               case 4:
               case "end":
@@ -2805,7 +2805,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    borrar: function borrar(rut) {
+    borrar: function borrar(id_estudiante) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -2815,7 +2815,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios["delete"]('/registro_Academico/' + _this2.rut);
+                return axios["delete"]('/registro_Academico/' + _this2.id_estudiante);
 
               case 2:
                 res = _context2.sent;
@@ -2846,7 +2846,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context3.next = 3;
-                return axios.put('/registro_Academico/' + _this3.rut, _this3.registroAcademico);
+                return axios.put('/registro_Academico/' + _this3.id_estudiante, _this3.registroAcademico);
 
               case 3:
                 res = _context3.sent;
@@ -2855,7 +2855,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _context3.next = 8;
-                return axios.post('/registro_Academico', _this3.registroAcademico);
+                return axios.post('/registro_Academico/', _this3.registroAcademico);
 
               case 8:
                 _res = _context3.sent;
@@ -2889,13 +2889,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.registroAcademico.observaciones = data.observaciones;
       } else {
         this.tituloModal = "Crear registro academico";
-        this.registroAcademico.id_estudiante = null;
+        this.registroAcademico.id_estudiante = 0;
         this.registroAcademico.rut = '';
         this.registroAcademico.nombre = '';
         this.registroAcademico.A_paterno = '';
         this.registroAcademico.A_materno = '';
         this.registroAcademico.fecha_inscripcion = null;
-        this.registroAcademico.promedio = null;
+        this.registroAcademico.promedio = 0;
         this.registroAcademico.observaciones = '';
       }
     },

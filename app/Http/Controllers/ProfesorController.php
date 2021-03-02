@@ -101,4 +101,9 @@ class ProfesorController extends Controller
         $profesor->delete();
 
     }
+    public function eliminar(Request $request){
+        $profesor = Profesor::findOrFail($request->rut);
+        $profesor->delete();
+
+    }
 }
