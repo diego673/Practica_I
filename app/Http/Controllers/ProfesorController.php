@@ -39,9 +39,14 @@ class ProfesorController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $profesor=new Profesor;
-        $profesor->create($request->all());
+        $profesor = new Profesor();
+        $profesor->nombre = $request->nombre;
+        $profesor->A_paterno = $request->A_paterno;
+        $profesor->A_materno = $request->A_materno;
+        $profesor->rut = $request->rut;
+        $profesor->asignatura = $request->asignatura;
+        $profesor->correo = $request->correo;
+        $profesor->save();
     }
 
     /**
@@ -62,10 +67,10 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function edit($rut)
+    public function edit($id)
     {
         //
-        $profesor = Profesor:: findOrFail($rut);
+        $profesor = Profesor:: findOrFail($id);
         return view('profesor.edit',compact('profesor'));
     }
 
@@ -76,16 +81,23 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profesor $profesor)
+    public function update(Request $request)
     {
+        $profesor =Profesor::findOrFail($request -> id);
+        $profesor->delete();
+        return "profesor eliminado";
+        /*
+        $profesor = Profesor::where('id', $request->id)->findOrFail();
 
-        $profesor->update($request->all());
-        //
-        /*$datosProfesor=request()-> except(['_token','_method']);
-        Profesor::where('rut','=',$rut)->update($datosProfesor);
-
-        $profesor = Profesor:: findOrFail($rut);
-        return redirect('profesor')-> with('Mensaje','Profesor editado con exito');
+        $profesor->id = $request->id;
+        $profesor->nombre = $request->nombre;
+        $profesor->A_paterno = $request->A_paterno;
+        $profesor->A_materno = $request->A_materno;
+        $profesor->rut = $request->rut;
+        $profesor->asignatura = $request->asignatura;
+        $profesor->correo = $request->correo;
+        $profesor->save();
+        return "esta editando";
         */
     }
 
@@ -95,15 +107,14 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profesor  $profesor)
+    public function eliminar(Request $request)
     {
+        return "profesor eliminado";
+        /*
+        $profesor =Profesor::findOrFail($request -> id);
+        $profesor->delete();
+        */
         
-        $profesor->delete();
-
     }
-    public function eliminar(Request $request){
-        $profesor = Profesor::findOrFail($request->rut);
-        $profesor->delete();
-
-    }
+    
 }

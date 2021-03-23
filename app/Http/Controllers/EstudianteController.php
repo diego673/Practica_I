@@ -39,15 +39,15 @@ class EstudianteController extends Controller
     public function store(Request $request)
     {
 
-        $estudiante = new Estudiante;
-        $estudiante->create($request->all());
-
-        /*$datosEstudiante=request() -> except('_token');
-
-        Estudiante:: insert($datosEstudiante);
-        
-        return redirect('estudiante')-> with('Mensaje', 'Estudiante agregado con exito');
-        */
+        $estudiante = new Estudiante();
+        $estudiante->id = $request->id;
+        $estudiante->nombre = $request->nombre;
+        $estudiante->A_paterno = $request->A_paterno;
+        $estudiante->A_materno = $request->A_materno;
+        $estudiante->rut = $request->rut;
+        $estudiante->correo = $request->correo;
+        $estudiante->save();
+        return "estudiante agregado";
     }
 
     /**
@@ -85,13 +85,16 @@ class EstudianteController extends Controller
     public function update(Request $request, Estudiante $estudiante)
     {
         
-        $estudiante->update($request->all());
-        /*$datosEstudiante=request() -> except(['_token','_method']);
-        Estudiante::where('id','=',$id)-> update( $datosEstudiante);
+        $estudiante = Estudiante::where('id', $request->id)->findOrFail();
 
-        $estudiantes= Estudiante::findOrFail($id);
-        return redirect('estudiante')-> with('Mensaje', 'Estudiante editado con exito');
-        */
+        $estudiante->id = $request->id;
+        $estudiante->nombre = $request->nombre;
+        $estudiante->A_paterno = $request->A_paterno;
+        $estudiante->A_materno = $request->A_materno;
+        $estudiante->rut = $request->rut;
+        $estudiante->correo = $request->correo;
+        $estudiante->save();
+        return "estudiante actualizado";
     }
 
     /**
@@ -100,13 +103,10 @@ class EstudianteController extends Controller
      * @param  \App\Models\Estudiante  $estudiante
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estudiante $estudiante)
+    public function eliminar($id)
     {
+        $estudiante = Estudiante::findOrFail($id);
         $estudiante->delete();
-
-        //Estudiante::destroy($id);
-        //return redirect('estudiante')-> with('Mensaje', 'Estudiante eliminado con exito');
-
-
+        return "estudiante eliminado";
     }
 }

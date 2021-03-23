@@ -23,27 +23,27 @@
       <div class="modal-body">
           <div class="my-4">
             <label for="id">Id del estudiante</label>
-            <input v-model="estudiante.id" type="integer" class="form-control" id=id placeholder="...">
+            <input v-model="id" type="integer" class="form-control" id=id placeholder="...">
           </div >
           <div class="my-4">
             <label for="nombre">Nombre del estudiante</label>
-            <input v-model="estudiante.nombre" type="text" class="form-control" id=nombre placeholder="...">
+            <input v-model="nombre" type="text" class="form-control" id=nombre placeholder="...">
           </div >
           <div class="my-4">
             <label for="A_paterno">Apellido paterno</label>
-            <input v-model="estudiante.A_paterno" type="text" class="form-control" id=A_paterno placeholder="...">
+            <input v-model="A_paterno" type="text" class="form-control" id=A_paterno placeholder="...">
           </div>
           <div class="my-4">
             <label for="A_materno">Apellido materno</label>
-            <input v-model="estudiante.A_materno" type="text" class="form-control" id=A_materno placeholder="...">
+            <input v-model="A_materno" type="text" class="form-control" id=A_materno placeholder="...">
           </div>
           <div class="my-4">
             <label for="rut">Rut del estudiante</label>
-            <input v-model="estudiante.rut" type="text" class="form-control" id=rut placeholder="...">
+            <input v-model="rut" type="text" class="form-control" id=rut placeholder="...">
           </div>
           <div class="my-4">
             <label for="correo">Correo del estudiante</label>
-            <input v-model="estudiante.correo" type="text" class="form-control" id=correo placeholder="...">
+            <input v-model="correo" type="text" class="form-control" id=correo placeholder="...">
           </div>
       </div>
 
@@ -93,16 +93,16 @@ export default {
         return{
           estudiante:{
             id:0,
-            nombre:'n',
-            A_paterno: 'ap',
-            A_materno:'am',
-            rut:'r',
-            correo:'c'
+            nombre:"",
+            A_paterno: "",
+            A_materno:"",
+            rut:"",
+            correo:"",
           },
           id:0,
           modificar:true,
           estudiantes:[],
-          tituloModal:'',
+          tituloModal:"",
           modal:0,
           
         }
@@ -114,42 +114,83 @@ export default {
             this.estudiantes=res.data;
         },
 
-        async borrar(id){
-            const res=await axios.delete('/estudiante/'+ this.id)
-            this.listar();
+        borrar(id){
+          let me = this;
+          alert(id);
+            axios.put('/estudiante/eliminar/', {id:id})
+            .then(function(response){
+              me.listar(); 
+              alert(response.data);
+              swal.fire(
+                "Borrado",
+              )
+            }).catch(function(error){
+              console.log(error);
+            })
         },
-
-        async guardar(){
+        
+        guardar(){
+          let me = this;
           if(this.modificar){
-            const res=await axios.put('/estudiante/' +this.id, this.estudiante)
+           alert(id);
+           axios.put('/estudiante/actualizar/', {
+              nombre: this.nombre,
+              A_paterno: this.A_paterno,
+              A_materno: this.A_materno,
+              rut: this.rut,
+              correo: this.correo,
+            })
+            .then(function(response){
+              me.cerrarModal();
+              me.listar();
+              swal.fire({
+                icon: "success",
+                title: "Informacion",
+                text: "Profesor actualizado",
+              });
+            }).catch(function(error){
+              console.log(error);
+            })
 
           }else{
-
-            const res=await axios.post('/estudiante/', this.estudiante)
+            axios.post('/estudiante/registrar',{
+              id: this.id,
+              nombre: this.nombre,
+              A_paterno: this.A_paterno,
+              A_materno: this.A_materno,
+              rut: this.rut,
+              correo: this.correo,
+            })
+            .then(function(response){
+              me.cerrarModal();
+              me.listar();
+            }).catch(function(error){
+              console.log(error);
+            })
           }
-          this.cerrarModal();
-          this.listar();
         },
 
-        abrirModal(data={}){
+
+
+        abrirModal(data=[]){
           this.modal=1;
           if(this.modificar){
             this.tituloModal="Modificar estudiante";
-            this.estudiante.id=data.id;
-            this.estudiante.nombre=data.nombre;
-            this.estudiante.A_paterno=data.A_paterno;
-            this.estudiante.A_materno=data.A_materno;
-            this.estudiante.rut=data.rut;
-            this.estudiante.correo=data.correo;
+            this.id=data["id"];
+            this.nombre=data["nombre"];
+            this.A_paterno=data["A_paterno"];
+            this.A_materno=data["A_materno"];
+            this.rut=data["rut"];
+            this.correo=data["correo"];
 
           }else{
             this.tituloModal="Crear estudiante";
-            this.estudiante.id=0;
-            this.estudiante.nombre='';
-            this.estudiante.A_paterno='';
-            this.estudiante.A_materno='';
-            this.estudiante.rut='';
-            this.estudiante.correo='';
+            this.profesor.id="";
+            this.profesor.nombre="";
+            this.profesor.A_paterno="";
+            this.profesor.A_materno="";
+            this.profesor.rut="";
+            this.profesor.correo="";
 
           }
 
@@ -157,6 +198,12 @@ export default {
 
         cerrarModal(){
           this.modal=0;
+          this.profesor.id="";
+          this.profesor.nombre="";
+          this.profesor.A_paterno="";
+          this.profesor.A_materno="";
+          this.profesor.rut="";
+          this.profesor.correo="";
 
         },
 

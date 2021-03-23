@@ -28,9 +28,14 @@ Route::resource('profesor', ProfesorController::class)->middleware('auth');
 Route::resource('registro_Academico', Registro_AcademicoController::class)->middleware('auth');
 Route::resource('asignatura', AsignaturaController::class)->middleware('auth');
 Route::resource('estudiante', EstudianteController::class)->middleware('auth');
-Route::put('/profesor/eliminar', 'ProfesorController@eliminar');
 
+Route::put('/profesor/actualizar', 'App\Http\Controllers\ProfesorController@update');
+Route::post('/profesor/registrar', 'App\Http\Controllers\ProfesorController@store');
+Route::put('/profesor/eliminar', 'App\Http\Controllers\ProfesorController@eliminar');
 
+Route::put('/estudiante/actualizar', 'App\Http\Controllers\EstudianteController@update');
+Route::post('/estudiante/registrar', 'App\Http\Controllers\EstudianteController@store');
+Route::put('/estudiante/eliminar/{id}', 'App\Http\Controllers\EstudianteController@eliminar');
 
 
 

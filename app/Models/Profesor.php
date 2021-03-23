@@ -9,6 +9,7 @@ class Profesor extends Model
 {
     use HasFactory;
     protected $fillable =[
+        'id',
         'nombre',
         'A_paterno',
         'A_materno',
@@ -17,9 +18,9 @@ class Profesor extends Model
         'correo'
     ];
 
-    protected $primaryKey = 'rut';
+    protected $primaryKey = 'id';
 
     public $incrementing = false;
     
-    protected $keyType = 'string';
+    protected $keyType = 'int';
 }

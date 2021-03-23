@@ -2249,16 +2249,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       estudiante: {
         id: 0,
-        nombre: 'n',
-        A_paterno: 'ap',
-        A_materno: 'am',
-        rut: 'r',
-        correo: 'c'
+        nombre: "",
+        A_paterno: "",
+        A_materno: "",
+        rut: "",
+        correo: ""
       },
       id: 0,
       modificar: true,
       estudiantes: [],
-      tituloModal: '',
+      tituloModal: "",
       modal: 0
     };
   },
@@ -2288,97 +2288,86 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     borrar: function borrar(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios["delete"]('/estudiante/' + _this2.id);
-
-              case 2:
-                res = _context2.sent;
-
-                _this2.listar();
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
+      var me = this;
+      alert(id);
+      axios.put('/estudiante/eliminar/', {
+        id: id
+      }).then(function (response) {
+        me.listar();
+        alert(response.data);
+        swal.fire("Borrado");
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     guardar: function guardar() {
-      var _this3 = this;
+      var me = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var res, _res;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!_this3.modificar) {
-                  _context3.next = 6;
-                  break;
-                }
-
-                _context3.next = 3;
-                return axios.put('/estudiante/' + _this3.id, _this3.estudiante);
-
-              case 3:
-                res = _context3.sent;
-                _context3.next = 9;
-                break;
-
-              case 6:
-                _context3.next = 8;
-                return axios.post('/estudiante/', _this3.estudiante);
-
-              case 8:
-                _res = _context3.sent;
-
-              case 9:
-                _this3.cerrarModal();
-
-                _this3.listar();
-
-              case 11:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
+      if (this.modificar) {
+        alert(id);
+        axios.put('/estudiante/actualizar/', {
+          nombre: this.nombre,
+          A_paterno: this.A_paterno,
+          A_materno: this.A_materno,
+          rut: this.rut,
+          correo: this.correo
+        }).then(function (response) {
+          me.cerrarModal();
+          me.listar();
+          swal.fire({
+            icon: "success",
+            title: "Informacion",
+            text: "Profesor actualizado"
+          });
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      } else {
+        axios.post('/estudiante/registrar', {
+          id: this.id,
+          nombre: this.nombre,
+          A_paterno: this.A_paterno,
+          A_materno: this.A_materno,
+          rut: this.rut,
+          correo: this.correo
+        }).then(function (response) {
+          me.cerrarModal();
+          me.listar();
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     },
     abrirModal: function abrirModal() {
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       this.modal = 1;
 
       if (this.modificar) {
         this.tituloModal = "Modificar estudiante";
-        this.estudiante.id = data.id;
-        this.estudiante.nombre = data.nombre;
-        this.estudiante.A_paterno = data.A_paterno;
-        this.estudiante.A_materno = data.A_materno;
-        this.estudiante.rut = data.rut;
-        this.estudiante.correo = data.correo;
+        this.id = data["id"];
+        this.nombre = data["nombre"];
+        this.A_paterno = data["A_paterno"];
+        this.A_materno = data["A_materno"];
+        this.rut = data["rut"];
+        this.correo = data["correo"];
       } else {
         this.tituloModal = "Crear estudiante";
-        this.estudiante.id = 0;
-        this.estudiante.nombre = '';
-        this.estudiante.A_paterno = '';
-        this.estudiante.A_materno = '';
-        this.estudiante.rut = '';
-        this.estudiante.correo = '';
+        this.profesor.id = "";
+        this.profesor.nombre = "";
+        this.profesor.A_paterno = "";
+        this.profesor.A_materno = "";
+        this.profesor.rut = "";
+        this.profesor.correo = "";
       }
     },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
+      this.profesor.id = "";
+      this.profesor.nombre = "";
+      this.profesor.A_paterno = "";
+      this.profesor.A_materno = "";
+      this.profesor.rut = "";
+      this.profesor.correo = "";
     }
   },
   created: function created() {
@@ -2496,21 +2485,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       profesor: {
-        nombre: 'n',
-        A_paterno: 'ap',
-        A_materno: 'am',
-        rut: 'r',
-        asignatura: 'a',
-        correo: 'c'
+        id: 0,
+        nombre: "",
+        A_paterno: "",
+        A_materno: "",
+        rut: "",
+        asignatura: "",
+        correo: ""
       },
-      rut: '',
+      id: 0,
       modificar: true,
       profesores: [],
-      tituloModal: '',
+      tituloModal: "",
       modal: 0
     };
   },
@@ -2539,98 +2531,90 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    borrar: function borrar(rut) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.put('/profesor/eliminar' + _this2.rut);
-
-              case 2:
-                res = _context2.sent;
-
-                _this2.listar();
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
+    borrar: function borrar(id) {
+      var me = this;
+      alert(id);
+      axios.put('/profesor/eliminar/', {
+        id: id
+      }).then(function (response) {
+        me.listar();
+        alert(response.data);
+        swal.fire("Borrado");
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
-    guardar: function guardar() {
-      var _this3 = this;
+    guardar: function guardar(id) {
+      var me = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var res, _res;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!_this3.modificar) {
-                  _context3.next = 6;
-                  break;
-                }
-
-                _context3.next = 3;
-                return axios.put('/profesor/' + _this3.rut, _this3.profesor);
-
-              case 3:
-                res = _context3.sent;
-                _context3.next = 9;
-                break;
-
-              case 6:
-                _context3.next = 8;
-                return axios.post('/profesor/', _this3.profesor);
-
-              case 8:
-                _res = _context3.sent;
-
-              case 9:
-                _this3.cerrarModal();
-
-                _this3.listar();
-
-              case 11:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
+      if (this.modificar) {
+        alert(id);
+        axios.put('/profesor/actualizar/', {
+          id: id,
+          nombre: this.nombre,
+          A_paterno: this.A_paterno,
+          A_materno: this.A_materno,
+          rut: this.rut,
+          asignatura: this.asignatura,
+          correo: this.correo
+        }).then(function (response) {
+          me.cerrarModal();
+          me.listar();
+          swal.fire({
+            icon: "success",
+            title: "Informacion",
+            text: "Profesor actualizado"
+          });
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      } else {
+        axios.post('/profesor/registrar', {
+          nombre: this.nombre,
+          A_paterno: this.A_paterno,
+          A_materno: this.A_materno,
+          rut: this.rut,
+          asignatura: this.asignatura,
+          correo: this.correo
+        }).then(function (response) {
+          me.cerrarModal();
+          me.listar();
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     },
     abrirModal: function abrirModal() {
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       this.modal = 1;
 
       if (this.modificar) {
         this.tituloModal = "Modificar profesor";
-        this.profesor.nombre = data.nombre;
-        this.profesor.A_paterno = data.A_paterno;
-        this.profesor.A_materno = data.A_materno;
-        this.profesor.rut = data.rut;
-        this.profesor.asignatura = data.asignatura;
-        this.profesor.correo = data.correo;
+        this.nombre = data["nombre"];
+        this.A_paterno = data["A_paterno"];
+        this.A_materno = data["A_materno"];
+        this.rut = data["rut"];
+        this.asignatura = data["asignatura"];
+        this.correo = data["correo"];
       } else {
         this.tituloModal = "Crear profesor";
-        this.profesor.nombre = '';
-        this.profesor.A_paterno = '';
-        this.profesor.A_materno = '';
-        this.profesor.rut = '';
-        this.profesor.asignatura = '';
-        this.profesor.correo = '';
+        this.profesor.nombre = "";
+        this.profesor.A_paterno = "";
+        this.profesor.A_materno = "";
+        this.profesor.rut = "";
+        this.profesor.asignatura = "";
+        this.profesor.correo = "";
       }
     },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
+      this.tituloModal = "";
+      this.nombre = "";
+      this.A_paterno = "";
+      this.A_materno = "";
+      this.rut = "";
+      this.asignatura = "";
+      this.correo = "";
     }
   },
   created: function created() {
@@ -40573,19 +40557,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.estudiante.id,
-                    expression: "estudiante.id"
+                    value: _vm.id,
+                    expression: "id"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "integer", id: "id", placeholder: "..." },
-                domProps: { value: _vm.estudiante.id },
+                domProps: { value: _vm.id },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.estudiante, "id", $event.target.value)
+                    _vm.id = $event.target.value
                   }
                 }
               })
@@ -40601,19 +40585,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.estudiante.nombre,
-                    expression: "estudiante.nombre"
+                    value: _vm.nombre,
+                    expression: "nombre"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "nombre", placeholder: "..." },
-                domProps: { value: _vm.estudiante.nombre },
+                domProps: { value: _vm.nombre },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.estudiante, "nombre", $event.target.value)
+                    _vm.nombre = $event.target.value
                   }
                 }
               })
@@ -40629,19 +40613,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.estudiante.A_paterno,
-                    expression: "estudiante.A_paterno"
+                    value: _vm.A_paterno,
+                    expression: "A_paterno"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "A_paterno", placeholder: "..." },
-                domProps: { value: _vm.estudiante.A_paterno },
+                domProps: { value: _vm.A_paterno },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.estudiante, "A_paterno", $event.target.value)
+                    _vm.A_paterno = $event.target.value
                   }
                 }
               })
@@ -40657,19 +40641,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.estudiante.A_materno,
-                    expression: "estudiante.A_materno"
+                    value: _vm.A_materno,
+                    expression: "A_materno"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "A_materno", placeholder: "..." },
-                domProps: { value: _vm.estudiante.A_materno },
+                domProps: { value: _vm.A_materno },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.estudiante, "A_materno", $event.target.value)
+                    _vm.A_materno = $event.target.value
                   }
                 }
               })
@@ -40685,19 +40669,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.estudiante.rut,
-                    expression: "estudiante.rut"
+                    value: _vm.rut,
+                    expression: "rut"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "rut", placeholder: "..." },
-                domProps: { value: _vm.estudiante.rut },
+                domProps: { value: _vm.rut },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.estudiante, "rut", $event.target.value)
+                    _vm.rut = $event.target.value
                   }
                 }
               })
@@ -40713,19 +40697,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.estudiante.correo,
-                    expression: "estudiante.correo"
+                    value: _vm.correo,
+                    expression: "correo"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "correo", placeholder: "..." },
-                domProps: { value: _vm.estudiante.correo },
+                domProps: { value: _vm.correo },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.estudiante, "correo", $event.target.value)
+                    _vm.correo = $event.target.value
                   }
                 }
               })
@@ -40925,19 +40909,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.profesor.nombre,
-                    expression: "profesor.nombre"
+                    value: _vm.nombre,
+                    expression: "nombre"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "nombre", placeholder: "..." },
-                domProps: { value: _vm.profesor.nombre },
+                domProps: { value: _vm.nombre },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.profesor, "nombre", $event.target.value)
+                    _vm.nombre = $event.target.value
                   }
                 }
               })
@@ -40953,19 +40937,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.profesor.A_paterno,
-                    expression: "profesor.A_paterno"
+                    value: _vm.A_paterno,
+                    expression: "A_paterno"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "A_paterno", placeholder: "..." },
-                domProps: { value: _vm.profesor.A_paterno },
+                domProps: { value: _vm.A_paterno },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.profesor, "A_paterno", $event.target.value)
+                    _vm.A_paterno = $event.target.value
                   }
                 }
               })
@@ -40981,19 +40965,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.profesor.A_materno,
-                    expression: "profesor.A_materno"
+                    value: _vm.A_materno,
+                    expression: "A_materno"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "A_materno", placeholder: "..." },
-                domProps: { value: _vm.profesor.A_materno },
+                domProps: { value: _vm.A_materno },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.profesor, "A_materno", $event.target.value)
+                    _vm.A_materno = $event.target.value
                   }
                 }
               })
@@ -41009,19 +40993,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.profesor.rut,
-                    expression: "profesor.rut"
+                    value: _vm.rut,
+                    expression: "rut"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "rut", placeholder: "..." },
-                domProps: { value: _vm.profesor.rut },
+                domProps: { value: _vm.rut },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.profesor, "rut", $event.target.value)
+                    _vm.rut = $event.target.value
                   }
                 }
               })
@@ -41037,19 +41021,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.profesor.asignatura,
-                    expression: "profesor.asignatura"
+                    value: _vm.asignatura,
+                    expression: "asignatura"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "asignatura", placeholder: "..." },
-                domProps: { value: _vm.profesor.asignatura },
+                domProps: { value: _vm.asignatura },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.profesor, "asignatura", $event.target.value)
+                    _vm.asignatura = $event.target.value
                   }
                 }
               })
@@ -41065,19 +41049,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.profesor.correo,
-                    expression: "profesor.correo"
+                    value: _vm.correo,
+                    expression: "correo"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text", id: "correo", placeholder: "..." },
-                domProps: { value: _vm.profesor.correo },
+                domProps: { value: _vm.correo },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.profesor, "correo", $event.target.value)
+                    _vm.correo = $event.target.value
                   }
                 }
               })
@@ -41106,7 +41090,7 @@ var render = function() {
                 attrs: { type: "button", "data-dismiss": "modal" },
                 on: {
                   click: function($event) {
-                    return _vm.guardar()
+                    return _vm.guardar(_vm.id)
                   }
                 }
               },
@@ -41123,7 +41107,9 @@ var render = function() {
       _c(
         "tbody",
         _vm._l(_vm.profesores, function(profesor) {
-          return _c("tr", { key: profesor.rut }, [
+          return _c("tr", { key: profesor.id }, [
+            _c("td", [_vm._v(_vm._s(profesor.id))]),
+            _vm._v(" "),
             _c("td", [
               _vm._v(
                 _vm._s(profesor.nombre) +
@@ -41163,7 +41149,8 @@ var render = function() {
                   staticClass: "btn btn-danger",
                   on: {
                     click: function($event) {
-                      return _vm.borrar(profesor.rut)
+                      $event.preventDefault()
+                      return _vm.borrar(profesor.id)
                     }
                   }
                 },
@@ -41184,6 +41171,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("ID")]),
+        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Rut")]),
